@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,7 +10,7 @@ namespace NeuralNetwork.Network
     public class Network
     {
         private static readonly double DEFAULT_LEARNING_RATE = 0.2;
-        public static readonly Random Random = new Random();
+        private static Random _random;
 
         private double learningRate = DEFAULT_LEARNING_RATE;
         private Layer inputLayer;
@@ -26,6 +25,7 @@ namespace NeuralNetwork.Network
             this.momentum = momentum;
             this.mountNetwork(inputSize, outputSize, hiddenNeurons);
             ErrorList = new List<double>();
+            _random = new Random(seed);
         }
 
         public Network(double learningRate, double momentum, int inputSize, int hiddenNeurons, int outputSize)
@@ -34,7 +34,10 @@ namespace NeuralNetwork.Network
             this.momentum = momentum;
             this.mountNetwork(inputSize, outputSize, hiddenNeurons);
             ErrorList = new List<double>();
+            _random = new Random();
         }
+
+        public static Random Random { get { return _random; }}
 
         public double getMomentum()
         {
